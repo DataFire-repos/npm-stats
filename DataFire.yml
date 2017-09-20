@@ -1,0 +1,8 @@
+options:
+  cors: true
+actions:
+  get_npm_stats: ./actions/get_npm_stats.js
+paths:
+  '/{package_name}/stats':
+    get:
+      action: get_npm_stats
