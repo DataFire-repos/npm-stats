@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@datafire/http": "2.0.0",
-    "cheerio": ""
+    "cheerio": "",
+    "@datafire/slack": "2.0.4"
   }
 }

@@ -2,7 +2,13 @@ options:
   cors: true
 actions:
   get_npm_stats: ./actions/get_npm_stats.js
+  post_stats_to_slack: ./actions/post_stats_to_slack.js
 paths:
   '/{package_name}/stats':
     get:
       action: get_npm_stats
+tasks:
+  daily_stats_post:
+    action: post_stats_to_slack
+    input: {}
+    accounts: {}
