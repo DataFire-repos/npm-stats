@@ -12,3 +12,4 @@ tasks:
     action: post_stats_to_slack
     input: {}
     accounts: {}
+    schedule: rate(1 day)
