@@ -2,6 +2,9 @@
   "dependencies": {
     "@datafire/http": "2.0.0",
     "cheerio": "",
-    "@datafire/slack": "2.0.4"
-  }
+    "@datafire/slack": "2.0.4",
+    "download-stats": ""
+  },
+  "name": "npm-stats",
+  "version": "1.0.0"
 }

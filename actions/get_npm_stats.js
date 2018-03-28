@@ -1,5 +1,7 @@
 "use strict";
 let datafire = require('datafire');
+let stats = require('download-stats');
+
 
 var http = require('@datafire/http').actions;
 module.exports = new datafire.Action({
@@ -10,20 +12,22 @@ module.exports = new datafire.Action({
     minLength: 1
   }],
   handler: (input, context) => {
-    return datafire.flow(context)
-      .then(_ => http.get({
-        url: "https://www.npmjs.com/package/" + input.package_name,
-      }, context))
-      .then(response => {
-        let $ = require('cheerio').load(response.body);
-        return {
-          name: input.package_name,
-          downloads: {
-            daily: +$('.daily-downloads').text(),
-            weekly: +$('.weekly-downloads').text(),
-            monthly: +$('.monthly-downloads').text(),
-          } 
-        }
-      })
+    let downloads = {};
+    function retrieveStats(period, label) {
+      return new Promise((resolve, reject) => {
+        stats.get[period](input.package_name, (err, results) => {
+          if (err) return reject(err);
+          downloads[label] = results.downloads;
+          resolve();
+        });
+      });
+    }
+    let prom = retrieveStats('lastDay', 'daily')
+        .then(_ => retrieveStats('lastWeek', 'weekly'))
+        .then(_ => retrieveStats('lastMonth', 'monthly'))
+        .then(_ => {
+           return {downloads, name: input.package_name}
+        })
+    return prom
   },
 });
